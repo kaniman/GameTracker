@@ -1,0 +1,10 @@
+C:\Projects\GameTracker\GameTrackerData\bin\Debug\GameTrackerData.dll.config
+C:\Projects\GameTracker\GameTrackerData\bin\Debug\GameTrackerData.dll
+C:\Projects\GameTracker\GameTrackerData\bin\Debug\GameTrackerData.pdb
+C:\Projects\GameTracker\GameTrackerData\bin\Debug\EntityFramework.dll
+C:\Projects\GameTracker\GameTrackerData\bin\Debug\EntityFramework.SqlServer.dll
+C:\Projects\GameTracker\GameTrackerData\bin\Debug\EntityFramework.xml
+C:\Projects\GameTracker\GameTrackerData\bin\Debug\EntityFramework.SqlServer.xml
+C:\Projects\GameTracker\GameTrackerData\obj\Debug\GameTrackerData.csprojResolveAssemblyReference.cache
+C:\Projects\GameTracker\GameTrackerData\obj\Debug\GameTrackerData.dll
+C:\Projects\GameTracker\GameTrackerData\obj\Debug\GameTrackerData.pdb

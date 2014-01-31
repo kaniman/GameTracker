@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GameTrackModelStoreContainer" CdmEntityContainer="GameTrackEntities">
+    <EntitySetMapping Name="Aliases">
+      <EntityTypeMapping TypeName="GameTrackModel.Alias">
+        <MappingFragment StoreEntitySet="Alias">
+          <ScalarProperty Name="ClanId" ColumnName="ClanId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AliasRatings">
+      <EntityTypeMapping TypeName="GameTrackModel.AliasRating">
+        <MappingFragment StoreEntitySet="AliasRating">
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="AliasId" ColumnName="AliasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clans">
+      <EntityTypeMapping TypeName="GameTrackModel.Clan">
+        <MappingFragment StoreEntitySet="Clan">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Games">
+      <EntityTypeMapping TypeName="GameTrackModel.Game">
+        <MappingFragment StoreEntitySet="Game">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Players">
+      <EntityTypeMapping TypeName="GameTrackModel.Player">
+        <MappingFragment StoreEntitySet="Player">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PlayerAlias" TypeName="GameTrackModel.PlayerAlias" StoreEntitySet="PlayerAlias">
+      <EndProperty Name="Player">
+        <ScalarProperty Name="Id" ColumnName="PlayerId" />
+      </EndProperty>
+      <EndProperty Name="Alias">
+        <ScalarProperty Name="Id" ColumnName="AliasId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PlayerGame" TypeName="GameTrackModel.PlayerGame" StoreEntitySet="PlayerGame">
+      <EndProperty Name="Player">
+        <ScalarProperty Name="Id" ColumnName="PlayerId" />
+      </EndProperty>
+      <EndProperty Name="Game">
+        <ScalarProperty Name="Id" ColumnName="GameId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

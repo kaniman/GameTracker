@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GameTrackModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="GameTrackEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Aliases" EntityType="GameTrackModel.Alias" />
+    <EntitySet Name="AliasRatings" EntityType="GameTrackModel.AliasRating" />
+    <EntitySet Name="Clans" EntityType="GameTrackModel.Clan" />
+    <EntitySet Name="Games" EntityType="GameTrackModel.Game" />
+    <EntitySet Name="Players" EntityType="GameTrackModel.Player" />
+    <AssociationSet Name="FK_Alias_Clan" Association="GameTrackModel.FK_Alias_Clan">
+      <End Role="Clan" EntitySet="Clans" />
+      <End Role="Alias" EntitySet="Aliases" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AliasRating_Alias" Association="GameTrackModel.FK_AliasRating_Alias">
+      <End Role="Alias" EntitySet="Aliases" />
+      <End Role="AliasRating" EntitySet="AliasRatings" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerAlias" Association="GameTrackModel.PlayerAlias">
+      <End Role="Alias" EntitySet="Aliases" />
+      <End Role="Player" EntitySet="Players" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerGame" Association="GameTrackModel.PlayerGame">
+      <End Role="Game" EntitySet="Games" />
+      <End Role="Player" EntitySet="Players" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Alias">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClanId" Type="Int64" />
+    <NavigationProperty Name="Clan" Relationship="GameTrackModel.FK_Alias_Clan" FromRole="Alias" ToRole="Clan" />
+    <NavigationProperty Name="AliasRating" Relationship="GameTrackModel.FK_AliasRating_Alias" FromRole="Alias" ToRole="AliasRating" />
+    <NavigationProperty Name="Players" Relationship="GameTrackModel.PlayerAlias" FromRole="Alias" ToRole="Player" />
+  </EntityType>
+  <EntityType Name="AliasRating">
+    <Key>
+      <PropertyRef Name="AliasId" />
+    </Key>
+    <Property Name="AliasId" Type="Int64" Nullable="false" />
+    <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Alias" Relationship="GameTrackModel.FK_AliasRating_Alias" FromRole="AliasRating" ToRole="Alias" />
+  </EntityType>
+  <EntityType Name="Clan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Alias" Relationship="GameTrackModel.FK_Alias_Clan" FromRole="Clan" ToRole="Alias" />
+  </EntityType>
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="526" FixedLength="false" Unicode="false" />
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Players" Relationship="GameTrackModel.PlayerGame" FromRole="Game" ToRole="Player" />
+  </EntityType>
+  <EntityType Name="Player">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="UniqueId" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Aliases" Relationship="GameTrackModel.PlayerAlias" FromRole="Player" ToRole="Alias" />
+    <NavigationProperty Name="Games" Relationship="GameTrackModel.PlayerGame" FromRole="Player" ToRole="Game" />
+  </EntityType>
+  <Association Name="FK_Alias_Clan">
+    <End Type="GameTrackModel.Clan" Role="Clan" Multiplicity="1" />
+    <End Type="GameTrackModel.Alias" Role="Alias" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Clan">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Alias">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AliasRating_Alias">
+    <End Type="GameTrackModel.Alias" Role="Alias" Multiplicity="1" />
+    <End Type="GameTrackModel.AliasRating" Role="AliasRating" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Alias">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AliasRating">
+        <PropertyRef Name="AliasId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PlayerAlias">
+    <End Type="GameTrackModel.Alias" Role="Alias" Multiplicity="*" />
+    <End Type="GameTrackModel.Player" Role="Player" Multiplicity="*" />
+  </Association>
+  <Association Name="PlayerGame">
+    <End Type="GameTrackModel.Game" Role="Game" Multiplicity="*" />
+    <End Type="GameTrackModel.Player" Role="Player" Multiplicity="*" />
+  </Association>
+</Schema>

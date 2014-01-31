@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GameTrackModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Alias">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClanId" Type="bigint" />
+  </EntityType>
+  <EntityType Name="AliasRating">
+    <Key>
+      <PropertyRef Name="AliasId" />
+    </Key>
+    <Property Name="AliasId" Type="bigint" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Clan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="526" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Player">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="UniqueId" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerAlias">
+    <Key>
+      <PropertyRef Name="PlayerId" />
+      <PropertyRef Name="AliasId" />
+    </Key>
+    <Property Name="PlayerId" Type="bigint" Nullable="false" />
+    <Property Name="AliasId" Type="bigint" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GameTrack.gt.PlayerGame' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="PlayerGame">
+    <Key>
+      <PropertyRef Name="PlayerId" />
+      <PropertyRef Name="GameId" />
+    </Key>
+    <Property Name="PlayerId" Type="bigint" Nullable="false" />
+    <Property Name="GameId" Type="bigint" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Alias_Clan">
+    <End Role="Clan" Type="Self.Clan" Multiplicity="1" />
+    <End Role="Alias" Type="Self.Alias" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Clan">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Alias">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AliasRating_Alias">
+    <End Role="Alias" Type="Self.Alias" Multiplicity="1" />
+    <End Role="AliasRating" Type="Self.AliasRating" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Alias">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AliasRating">
+        <PropertyRef Name="AliasId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerAlias_Alias">
+    <End Role="Alias" Type="Self.Alias" Multiplicity="1" />
+    <End Role="PlayerAlias" Type="Self.PlayerAlias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alias">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayerAlias">
+        <PropertyRef Name="AliasId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerAlias_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="PlayerAlias" Type="Self.PlayerAlias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayerAlias">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerGame_Game">
+    <End Role="Game" Type="Self.Game" Multiplicity="1" />
+    <End Role="PlayerGame" Type="Self.PlayerGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayerGame">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerGame_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="PlayerGame" Type="Self.PlayerGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayerGame">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GameTrackModelStoreContainer">
+    <EntitySet Name="Alias" EntityType="Self.Alias" Schema="gt" store:Type="Tables" />
+    <EntitySet Name="AliasRating" EntityType="Self.AliasRating" Schema="gt" store:Type="Tables" />
+    <EntitySet Name="Clan" EntityType="Self.Clan" Schema="gt" store:Type="Tables" />
+    <EntitySet Name="Game" EntityType="Self.Game" Schema="gt" store:Type="Tables" />
+    <EntitySet Name="Player" EntityType="Self.Player" Schema="gt" store:Type="Tables" />
+    <EntitySet Name="PlayerAlias" EntityType="Self.PlayerAlias" Schema="gt" store:Type="Tables" />
+    <EntitySet Name="PlayerGame" EntityType="Self.PlayerGame" store:Type="Tables" store:Schema="gt">
+      <DefiningQuery>SELECT 
+    [PlayerGame].[PlayerId] AS [PlayerId], 
+    [PlayerGame].[GameId] AS [GameId]
+    FROM [gt].[PlayerGame] AS [PlayerGame]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Alias_Clan" Association="Self.FK_Alias_Clan">
+      <End Role="Clan" EntitySet="Clan" />
+      <End Role="Alias" EntitySet="Alias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AliasRating_Alias" Association="Self.FK_AliasRating_Alias">
+      <End Role="Alias" EntitySet="Alias" />
+      <End Role="AliasRating" EntitySet="AliasRating" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerAlias_Alias" Association="Self.FK_PlayerAlias_Alias">
+      <End Role="Alias" EntitySet="Alias" />
+      <End Role="PlayerAlias" EntitySet="PlayerAlias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerAlias_Player" Association="Self.FK_PlayerAlias_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="PlayerAlias" EntitySet="PlayerAlias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerGame_Game" Association="Self.FK_PlayerGame_Game">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="PlayerGame" EntitySet="PlayerGame" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerGame_Player" Association="Self.FK_PlayerGame_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="PlayerGame" EntitySet="PlayerGame" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
